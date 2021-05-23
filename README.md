@@ -1,3 +1,32 @@
+## About Workings
+> How to check work flow as per Task ...
+
+- composer upadte.
+- Run php artisan voyager:install --with-dummy
+- Run php artisan migrate(Migrations).
+- Run php artisan db:seed(Seeding).
+- User this dummy credentials to login into admin account.
+> -email: admin@admin.com
+> -password: password
+- I m using Voyager as backend admin panel.
+
+## Or you can use this simple.
+> I m attaching DB_Backup folder which have db_ backup.
+
+- composer upadte.
+- Upload db_backup file to /phpmyadmin
+- change App_Url as per your .env file so that images can load from storage folder.
+
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
