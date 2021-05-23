@@ -16,6 +16,7 @@
 - composer upadte.
 - Upload db_backup file to /phpmyadmin
 - change App_Url as per your .env file so that images can load from storage folder.
+- Run php artisan storage:link.
 
 
 
