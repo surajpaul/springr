@@ -27,8 +27,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-    Route::post('/users/edit', 'Admin\UsersController@edit')->name('user.edit');
-    Route::post('/users/update', 'Admin\UsersController@update')->name('user.update');
-    Route::post('/users/delete', 'Admin\UsersController@delete')->name('user.delete');
-    Route::resource('/users', 'Admin\UsersController', ['except' => ['show','create']]);
+    Route::resource('/users', 'Admin\UsersController');
 });

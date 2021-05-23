@@ -66,10 +66,22 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $req)
+    public function edit($id)
     {
-        $user = User::findOrFail($req->id);
+        $user = User::findOrFail($id);
         return view('admin.users.edit',compact('user'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $user = User::whereId($id)->delete();
+        return redirect('/admin/users')->with('success', 'User removed successfully.');
     }
 
     /**
@@ -110,20 +122,5 @@ class UsersController extends Controller
         }else{
             return redirect('/admin/users')->with('failure', 'Date of Joning must be smaller than current date.');
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function delete(Request $req)
-    {
-        if(isset($req->id)){
-            $user = User::whereId($req->id)->delete();
-            return redirect('/admin/users')->with('success', 'User removed successfully.');
-        }
-        return redirect('/admin/users')->with('failure', 'User not removed successfully.');
     }
 }

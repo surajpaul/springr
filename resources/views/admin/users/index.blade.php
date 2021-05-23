@@ -1,24 +1,34 @@
 @extends('voyager::master')
 
 @section('content')
-<style type="text/css">
-	.px-5{
-		padding: 0px 4em;
-	}
-	.pt-3{
-		padding-top: 20px;
-	}
-	.pb-4{
-		padding-bottom: 30px;
-	}
-	label{
-		padding-top: 9px;
-	}
-	a{
-		text-decoration: none !important;
-	}
-</style>
+	<style type="text/css">
+		.px-5{
+			padding: 0px 4em;
+		}
+		.pt-3{
+			padding-top: 20px;
+		}
+		.pb-4{
+			padding-bottom: 30px;
+		}
+		label{
+			padding-top: 9px;
+		}
+		a{
+			text-decoration: none !important;
+		}
+	</style>
     <div class="page-content container-fluid">
+		@if(session()->has('success'))
+		    <div class="alert alert-success">
+		        {{ session()->get('success') }}
+		    </div>
+		@endif
+		@if(session()->has('failure'))
+		    <div class="alert alert-danger">
+		        {{ session()->get('failure') }}
+		    </div>
+		@endif
         <section class="container">
 	        <div class="row">
 	        	<div class="col-md-6 col-12" align="left">
@@ -50,18 +60,11 @@
 					            <td>{{$user->email}}</td>
 					            <td>{!!$user->exp!!}</td>
 					            <td>
-					            	<form method="POST" action="{{route('user.edit')}}">
-					            		@csrf
-					            		<input type="hidden" value="{{$user->id}}" name="id">
-					            		<button type="submit" class="badge badge-success">Edit</button>
-					            	</form>
+					            	<a class="badge badge-info" href="{{route('users.edit',$user->id)}}"> Edit </a>
 					            </td>
 					            <td>
-					            	<form method="POST" action="{{route('user.delete')}}">
-					            		@csrf
-					            		<input type="hidden" value="{{$user->id}}" name="id">
-					            		<button type="submit" class="badge badge-danger">Remove</button>
-					            	</form>
+					            	<a class="badge badge-danger delete-confirm" href="{{route('users.destroy',$user->id)}}"> remove </a>
+					            </td>
 					        </tr>
 					      @endforeach
 					    </tbody>
@@ -138,24 +141,38 @@
 	  </div>
 	</div>
 
-	<!-- delete user Modal -->
-
-
+	<!-- working or worked segment -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 		$(function() {
 		  enable_cb();
 		  $("#working").click(enable_cb);
 		});
-
 		function enable_cb() {
 		  if (this.checked) {
-		    
-
 		    $("input.dol").attr("disabled", true);
 		  } else {
 		    $("input.dol").removeAttr("disabled");
 		  }
 		}
+	</script>
+
+	<!-- Verify Delete segment -->
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+	$('.delete-confirm').on('click', function (event) {
+	    event.preventDefault();
+	    const url = $(this).attr('href');
+	    swal({
+	        title: 'Are you sure?',
+	        text: 'This record and it`s details will be permanantly deleted!',
+	        icon: 'warning',
+	        buttons: ["Cancel", "Yes!"],
+	    }).then(function(value) {
+	        if (value) {
+	            window.location.href = url;
+	        }
+	    });
+	});
 	</script>
 @stop

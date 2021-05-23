@@ -25,16 +25,15 @@
 	        		<h2 class="text-dark">Edit User {{$user->name}} Records</h2>
 	        	</div>
 
-
 	        	<div class="col-md-12 col-12">
-					<form method="POST" action="{{route('user.update')}}" enctype="multipart/form-data">
+					<form method="POST" action="{{route('users.update', $user->id)}}" enctype="multipart/form-data">
 			        	@csrf
+			        	@method('PATCH')
 			        	<div class="row">
 			        		<div class="col-md-4 col-4">
 			        			<label>Email: </label>
 			        		</div>
 			        		<div class="col-md-8 col-8">
-			        			<input type="hidden" name="id" value="{{$user->id}}">
 			        			<input type="email" name="email" value="{{$user->email}}" class="form-control" required>
 			        		</div>
 			        	</div>
@@ -59,7 +58,7 @@
 			        			<label>Date of Leaving: </label>
 			        		</div>
 			        		<div class="col-md-4 col-4">
-			        			<input type="date" name="date_of_leaving" class="form-control dol" required  value="{{$user->date_of_leaving}}"  <?php if($user->date_of_leaving == null){echo "disabled";}else{} ?>>
+				        		<input type="date" name="date_of_leaving" class="form-control dol" required  value="{{$user->date_of_leaving}}" <?php if($user->date_of_leaving == null){echo "disabled";}else{} ?>>
 			        		</div>
 			        		<div class="col-md-4 col-4">
 			        			<div class="form-check">
@@ -75,6 +74,7 @@
 			        		<div class="col-md-4 col-4">
 			        			<input type="file" name="avatar">
 			        			<input type="hidden" name="hidden_avatar" value="{{$user->avatar}}">
+			        			<img src="{{ filter_var($user->avatar, FILTER_VALIDATE_URL) ? $user->avatar : Voyager::image( $user->avatar ) }}" width="300px">
 			        		</div>
 			        	</div>
 			        	<div align="center">
@@ -89,14 +89,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 		$(function() {
-		  enable_cb();
-		  $("#working").click(enable_cb);
+		  disable_cb();
+		  $("#working").click(disable_cb);
+		  <?php if ($user->date_of_leaving == null) { ?>
+		  $("input.dol").attr("disabled", true);
+		  <?php }else{} ?>
 		});
 
-		function enable_cb() {
+		function disable_cb() {
 		  if (this.checked) {
-		    
-
 		    $("input.dol").attr("disabled", true);
 		  } else {
 		    $("input.dol").removeAttr("disabled");
